@@ -1,0 +1,4 @@
+interface:
+  display_name: "SRS PRD Planning Env"
+  short_description: "Scaffold implementation-grade product plans"
+  default_prompt: "Use $build-srs-prd-env to create an implementation-grade SRS/PRD, architecture, and delivery planning environment for my product."
