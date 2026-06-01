@@ -7,7 +7,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useNoteDetail, useDeleteNote } from '@/features/note/hooks';
 import { RatingStars } from '@/components/RatingStars';
+import { CommentThread } from '@/components/CommentThread';
 import { Button } from '@/components/Button';
+import { useAuthStore } from '@/stores/authStore';
 import { toUserMessage } from '@/lib/errors';
 import { tokens } from '@/theme/tokens';
 import type { ChecklistItem, Photo } from '@/types/database';
@@ -17,6 +19,7 @@ export default function NoteDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const detail = useNoteDetail(id ?? null);
   const del = useDeleteNote(detail.data?.workspace_id ?? null);
+  const myUserId = useAuthStore((s) => s.session?.user.id);
 
   function confirmDelete() {
     Alert.alert('노트 삭제', '이 노트를 삭제할까요?', [
@@ -96,7 +99,11 @@ export default function NoteDetailScreen() {
           </View>
         ) : null}
 
-        {/* 코멘트는 REL-004 */}
+        {/* 코멘트 (FR-COMMENT-001) — Realtime 반영(FR-WS-003) */}
+        <View style={styles.card}>
+          <CommentThread noteId={id as string} myUserId={myUserId} />
+        </View>
+
         <View style={{ height: tokens.space.md }} />
         <Button label="삭제" variant="danger" onPress={confirmDelete} loading={del.isPending} />
       </ScrollView>

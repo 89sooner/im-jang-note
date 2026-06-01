@@ -199,6 +199,16 @@ export interface UploadUrl {
   token: string;
 }
 
+/** ENT-CMT-001 comment (API-COMMENT-001/002) */
+export interface Comment {
+  id: string;
+  note_id: string;
+  workspace_id: string;
+  author_id: string;
+  body: string;
+  created_at: string;
+}
+
 /** API 오류 모델 (imjang_note_api_contracts.md §5) */
 export type ApiErrorCode =
   | 'AUTH_INVALID_CREDENTIALS'
@@ -216,4 +226,5 @@ export type ApiErrorCode =
   | 'NOTE_FORBIDDEN'
   | 'NOTE_NOT_FOUND'
   | 'MEDIA_LIMIT_EXCEEDED'
+  | 'COMMENT_VALIDATION_FAILED'
   | 'UNKNOWN';

@@ -20,6 +20,7 @@ const MESSAGES: Record<ApiErrorCode, string> = {
   NOTE_FORBIDDEN: '이 노트를 수정할 권한이 없습니다.',
   NOTE_NOT_FOUND: '노트를 찾을 수 없습니다.',
   MEDIA_LIMIT_EXCEEDED: '사진은 노트당 최대 10장까지 첨부할 수 있습니다.',
+  COMMENT_VALIDATION_FAILED: '코멘트 내용을 입력해 주세요.',
   UNKNOWN: '문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
 };
 
