@@ -16,6 +16,10 @@ const MESSAGES: Record<ApiErrorCode, string> = {
   MAP_GEOCODE_FAILED: '주소를 좌표로 변환하지 못했습니다.',
   DATA_UPSTREAM_UNAVAILABLE: '국토부 데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.',
   DATA_RATE_LIMITED: '요청이 많아 잠시 후 다시 시도해 주세요.',
+  NOTE_VALIDATION_FAILED: '방문일과 별점을 확인해 주세요.',
+  NOTE_FORBIDDEN: '이 노트를 수정할 권한이 없습니다.',
+  NOTE_NOT_FOUND: '노트를 찾을 수 없습니다.',
+  MEDIA_LIMIT_EXCEEDED: '사진은 노트당 최대 10장까지 첨부할 수 있습니다.',
   UNKNOWN: '문제가 발생했습니다. 잠시 후 다시 시도해 주세요.',
 };
 

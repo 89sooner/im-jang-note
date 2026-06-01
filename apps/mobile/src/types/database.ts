@@ -123,6 +123,82 @@ export interface BBox {
   maxLng: number;
 }
 
+/** 체크리스트 카테고리 (api_contracts §4, FR-NOTE-002) */
+export type ChecklistCategory =
+  | '교통'
+  | '학군'
+  | '소음'
+  | '채광'
+  | '관리상태'
+  | '주변환경';
+
+export const CHECKLIST_CATEGORIES: ChecklistCategory[] = [
+  '교통',
+  '학군',
+  '소음',
+  '채광',
+  '관리상태',
+  '주변환경',
+];
+
+export interface ChecklistItem {
+  category: ChecklistCategory;
+  score: number; // 1~5
+  memo?: string;
+}
+
+/** ENT-MEDIA-001 note_photo */
+export interface Photo {
+  id: string;
+  storage_path: string;
+  thumbnail_path: string | null;
+  signed_url?: string;
+}
+
+/** 멤버 참조 */
+export interface MemberRef {
+  user_id: string;
+  display_name: string;
+  role: WorkspaceRole;
+}
+
+/** API-NOTE-003 NoteSummary */
+export interface NoteSummary {
+  note_id: string;
+  workspace_id: string;
+  complex_id: string;
+  author_id: string;
+  rating: number;
+  visited_at: string;
+  free_memo: string;
+  created_at: string;
+}
+
+/** API-NOTE-004 NoteDetail = NoteSummary + 체크리스트/사진 */
+export interface NoteDetail extends NoteSummary {
+  checklist: ChecklistItem[];
+  photos: Photo[];
+}
+
+/** API-NOTE-001 NoteInput */
+export interface NoteInput {
+  note_id?: string;
+  workspace_id: string;
+  complex_id: string;
+  visited_at: string;
+  rating: number;
+  free_memo: string;
+  checklist: ChecklistItem[];
+}
+
+/** API-MEDIA-001 업로드 URL 응답 */
+export interface UploadUrl {
+  photo_id: string;
+  path: string;
+  signed_url: string;
+  token: string;
+}
+
 /** API 오류 모델 (imjang_note_api_contracts.md §5) */
 export type ApiErrorCode =
   | 'AUTH_INVALID_CREDENTIALS'
@@ -136,4 +212,8 @@ export type ApiErrorCode =
   | 'MAP_GEOCODE_FAILED'
   | 'DATA_UPSTREAM_UNAVAILABLE'
   | 'DATA_RATE_LIMITED'
+  | 'NOTE_VALIDATION_FAILED'
+  | 'NOTE_FORBIDDEN'
+  | 'NOTE_NOT_FOUND'
+  | 'MEDIA_LIMIT_EXCEEDED'
   | 'UNKNOWN';

@@ -5,7 +5,7 @@
  */
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useComplexDetail, useTransactions } from '@/features/complex/hooks';
 import { FreshnessBadge } from '@/components/FreshnessBadge';
 import { Button } from '@/components/Button';
@@ -22,6 +22,7 @@ function manwonToKR(price: number): string {
 }
 
 export default function ComplexDetailScreen() {
+  const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
   const detail = useComplexDetail(id ?? null);
   const tx = useTransactions(id ?? null);
@@ -76,14 +77,11 @@ export default function ComplexDetailScreen() {
           )}
         </View>
 
-        {/* 노트 작성 진입 (REL-003) */}
+        {/* 노트 작성 진입 (FR-NOTE-001) */}
         <View style={{ height: tokens.space.md }} />
         <Button
-          label="임장 노트 작성 (REL-003)"
-          onPress={() => {
-            /* REL-003에서 /note/edit?complexId=… 로 연결 */
-          }}
-          disabled
+          label="임장 노트 작성"
+          onPress={() => router.push(`/note/edit?complexId=${id}`)}
         />
       </ScrollView>
     </SafeAreaView>
