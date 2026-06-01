@@ -1,0 +1,9 @@
+-- 임장노트 개발용 시드 (선택)
+-- 주의: auth.users는 Supabase Auth가 관리하므로 여기서 직접 만들지 않는다.
+-- 실제 RLS·DTO와 일치하는 시드는 앱에서 가입 후 rpc_create_workspace로 생성한다.
+-- (data_model.md §8: seed/fixture는 프론트 테스트 픽스처와 형태 공유)
+-- 로컬에서 사용자 2명 가입 후, 아래처럼 활용 흐름을 수동 검증:
+--   1) userA 가입 → rpc_create_workspace('우리집 후보', uuid)
+--   2) rpc_create_invite(ws_id, 1440, uuid) → code 확보
+--   3) userB 가입 → rpc_accept_invite(code, uuid)
+--   4) workspace_member 2행(owner/partner) 및 RLS 교차 격리 확인

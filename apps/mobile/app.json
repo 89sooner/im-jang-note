@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "임장노트",
+    "slug": "imjang-note",
+    "version": "0.1.0",
+    "scheme": "imjangnote",
+    "orientation": "portrait",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "platforms": ["android", "ios"],
+    "android": {
+      "package": "com.imjangnote.app",
+      "permissions": ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"]
+    },
+    "ios": {
+      "bundleIdentifier": "com.imjangnote.app",
+      "supportsTablet": false
+    },
+    "plugins": ["expo-router"],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "// note": "런타임 시크릿은 EXPO_PUBLIC_* 환경변수(.env)로 주입. 외부 API 키는 클라이언트에 두지 않음(ADR-003/004)."
+    }
+  }
+}
