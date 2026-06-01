@@ -201,12 +201,19 @@
 - Could(P2): FR-NOTE-007(이력), F-MEDIA-003(EXIF), F-SET-003(export), F-COMMENT-002(멘션/읽음), F-WS-005(활동 로그).
 - Won't(현재): 매물 거래, 공개 커뮤니티, 3인+ 협업, 결제, AI 추천.
 
-## 14. 오픈 결정 사항
+## 14. 결정 사항 (2026-06-01 확정)
 
-| 결정 ID | 질문 | 상태 |
+상세 결정 본문과 결과는 `../30_technical_architecture/imjang_note_architecture_decision_records.md`를 참조한다.
+
+| 결정 ID | 상태 | 결정일 |
 | --- | --- | --- |
-| ADR-003 | Kakao Map RN 연동 방식 | open |
-| ADR-004 | 국토부 OpenAPI 캐싱 전략 | open |
-| ADR-005 | 오프라인 동시편집 충돌 정책 | open |
-| ADR-006 | 위치/개인정보 동의 범위 | open |
-| ADR-008 | 수익화 모델 | open |
+| ADR-001 | accepted | 2026-05-29 |
+| ADR-002 | accepted | 2026-05-29 |
+| ADR-003 | accepted | 2026-06-01 |
+| ADR-004 | accepted | 2026-06-01 |
+| ADR-005 | accepted | 2026-06-01 |
+| ADR-006 | accepted | 2026-06-01 |
+| ADR-007 | accepted | 2026-05-29 |
+| ADR-008 | accepted | 2026-06-01 |
+
+오픈 결정 없음. 신규 결정 발생 시 새 ADR ID로 등록한다.

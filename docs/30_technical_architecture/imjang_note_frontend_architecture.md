@@ -15,7 +15,7 @@
 | Routing | expo-router(파일 기반) 가정. 탭/스택 구조가 IA(§4~5)와 1:1 매핑되고 딥링크(F-002/F-008)에 유리 | ADR-001 |
 | Server state | @tanstack/react-query | ADR-007, NFR-001 |
 | Client state | Zustand | ADR-007 |
-| 지도 | Kakao Map (SDK 또는 WebView 브리지) | ADR-003(open) |
+| 지도 | WebView(react-native-webview) + Kakao Maps JS SDK v3, viewport culling + 클러스터링 ≤300마커 | ADR-003 (accepted) |
 | 알림 | expo-notifications | FR-NOTIFY-001/002 |
 | 오프라인 영속 | SQLite(expo-sqlite) 기반 outbox 큐 + React Query persist | FR-SYNC-001/002, ADR-005 |
 | 백엔드 SDK | @supabase/supabase-js (Auth/Postgres/Realtime/Storage) | ADR-002 |

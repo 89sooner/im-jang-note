@@ -23,7 +23,7 @@
 ## 3. Release Gates
 
 - Gate 1: 요구사항/추적성 리뷰 — 모든 REL이 FR/NFR/ENT/JOB/EVT에 연결.
-- Gate 2: 아키텍처/ADR 리뷰 — open ADR(해당 REL 의존분: ADR-003 REL-002, ADR-004 REL-002, ADR-006 REL-003, ADR-005 REL-006) 확정 또는 명시적 보류 승인.
+- Gate 2: 아키텍처/ADR 리뷰 — ADR-001~008 accepted 상태 유지(2026-06-01 확정). 신규 결정 발생 시 새 ADR로 등록·승인 후 진입. REL별 의존 ADR 검증: REL-002→ADR-003/004 가드레일(마커 ≤300, 캐시 TTL), REL-003→ADR-006 동의·EXIF, REL-006→ADR-005 idempotency/LWW.
 - Gate 3: 구현 테스트 — unit/integration/contract/e2e 통과, 크래시 프리 세션≥99.5%(SLO-08).
 - Gate 4: 보안·개인정보 리뷰 — RLS 교차접근 0(THR-001), 시크릿 비노출(THR-002), 서명 URL(THR-004), 동의/철회/삭제(THR-005/008), 로그 마스킹(THR-009).
 - Gate 5: 성능·접근성 리뷰 — SLO-01/02/03 충족, WCAG AA 핵심 화면 통과.

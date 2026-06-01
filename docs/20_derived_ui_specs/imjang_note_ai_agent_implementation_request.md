@@ -34,7 +34,7 @@
 - 클라이언트: React Native + Expo (Android 우선). 서버상태 React Query, 클라이언트상태 Zustand, 알림 expo-notifications, 지도 Kakao Map.
 - 백엔드: Supabase (Postgres + Auth + RLS + Realtime + Storage + Edge Functions).
 - 외부 데이터: 국토교통부 OpenAPI(단지정보·실거래가)는 Edge Function 프록시·캐시 경유, 키 클라이언트 비노출.
-- 테넌시: 워크스페이스(부부 2인) 단위 RLS 격리. 미확정 항목은 ADR-003(지도 연동)·ADR-004(캐싱)·ADR-005(오프라인 충돌)·ADR-006(개인정보 동의)로 우선 확정 후 구현.
+- 테넌시: 워크스페이스(부부 2인) 단위 RLS 격리. 핵심 ADR(ADR-003 Kakao=WebView+JS SDK / ADR-004 Postgres 캐시+TTL / ADR-005 LWW+idempotency outbox / ADR-006 목적별 동의+EXIF 제거 / ADR-008 무료)은 2026-06-01에 accepted로 확정됐다. ADR 본문(`../30_technical_architecture/imjang_note_architecture_decision_records.md`)을 그대로 따른다.
 
 ## 4. 구현 원칙
 

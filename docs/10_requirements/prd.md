@@ -176,15 +176,19 @@
 - P1 (REL-004~005): 공유·실시간·코멘트 → 검색·비교·즐겨찾기·알림. 부부 협업·의사결정 강화.
 - P2 (REL-006): 오프라인·동기화 하드닝, 관측·접근성·성능 마감. SaaS 품질 완성.
 
-## 12. 오픈 결정 사항
+## 12. 결정 사항 (2026-06-01 확정)
 
-| 결정 ID | 질문 | 선택지 | 필요 결정일 | 담당 |
-| --- | --- | --- | --- | --- |
-| ADR-003 | Kakao Map RN 연동 방식 | 네이티브 SDK 래퍼 / WebView 브리지 / 서드파티 라이브러리 | 지도 구현 착수 전 | Eng |
-| ADR-004 | 국토부 OpenAPI 캐싱 전략 | Edge Function + Postgres 캐시 TTL / 정기 배치 사전적재 | DATA 구현 착수 전 | Eng |
-| ADR-005 | 오프라인 동시편집 충돌 정책 | last-write-wins + 충돌 알림 / 필드 병합 / CRDT | SYNC 구현 착수 전 | Eng/Product |
-| ADR-006 | 위치/개인정보 동의 범위 | 사용 중에만 위치 / 사진 EXIF 수집 여부 | P0 출시 전 | Product/Legal |
-| ADR-008 | 수익화 모델 | 무료 / 구독 / 1회 구매 | P2 이후 | Product |
+이전 오픈 결정 5건은 `30_technical_architecture/imjang_note_architecture_decision_records.md`에서 확정되었다. 본 PRD는 그 결정을 다음과 같이 요약한다.
+
+| 결정 ID | 결론 | 요지 | 영향 |
+| --- | --- | --- | --- |
+| ADR-003 | accepted | WebView + Kakao JS SDK v3, viewport culling + 클러스터링으로 NFR-001 충족. REST는 Edge Function 프록시. | system / frontend / security |
+| ADR-004 | accepted | Postgres 캐시 + 키별 TTL + stale-while-revalidate. JOB-DATA-001 매일·-002 주 1회 갱신. | backend / data / async / observability |
+| ADR-005 | accepted | 리소스별 LWW + 클라이언트 idempotency key + 오프라인 outbox. 코멘트 append-only. | frontend / backend / async |
+| ADR-006 | accepted | 목적별 개별 동의 + EXIF GPS 업로드 시 제거 + 30일 grace 후 hard-delete. 탈퇴 시 익명화. | security / data |
+| ADR-008 | accepted | 무료 유지(개인용). 광고·구독·결제 미도입. 재평가 트리거 명시. | prd / system |
+
+남은 신규 결정은 발생 시 새 ADR ID로 등록한다.
 
 ## 13. 리스크 및 가정
 
