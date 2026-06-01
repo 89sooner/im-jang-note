@@ -13,13 +13,18 @@ import type {
 } from '@/types/database';
 
 /** API-MAP-001 뷰포트 단지 마커 (FR-MAP-001/002/005) */
-export async function fetchMarkers(bbox: BBox, zoom: number): Promise<Marker[]> {
+export async function fetchMarkers(
+  bbox: BBox,
+  zoom: number,
+  workspaceId?: string | null,
+): Promise<Marker[]> {
   const { data, error } = await supabase.rpc('rpc_markers_in_bbox', {
     p_min_lat: bbox.minLat,
     p_min_lng: bbox.minLng,
     p_max_lat: bbox.maxLat,
     p_max_lng: bbox.maxLng,
     p_zoom: Math.round(zoom),
+    p_workspace_id: workspaceId ?? null, // 노트/즐겨찾기 보유 단지 상태(FR-MAP-005)
   });
   if (error) throw error;
   return (data ?? []) as Marker[];

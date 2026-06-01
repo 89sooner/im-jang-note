@@ -209,6 +209,51 @@ export interface Comment {
   created_at: string;
 }
 
+/** ENT-FAV-001 favorite (API-FAV-001) */
+export interface Favorite {
+  id: string;
+  workspace_id: string;
+  complex_id: string;
+  created_at: string;
+}
+
+/** API-SEARCH-001/002 SearchResult */
+export interface SearchResult {
+  complex_id: string;
+  name: string;
+  address: string | null;
+  lat: number;
+  lng: number;
+}
+
+/** 검색 필터 (api_contracts §필터, FR-SEARCH-002) */
+export interface SearchFilters {
+  price_range?: [number, number];
+  area?: [number, number];
+  rating_min?: number;
+}
+
+export type NotificationType = 'note_created' | 'comment_created' | 'member_joined';
+
+/** ENT-NOTIFY-001 notification (API-NOTIFY-001) */
+export interface AppNotification {
+  id: string;
+  workspace_id: string;
+  recipient_id: string;
+  type: NotificationType;
+  payload: Record<string, unknown>;
+  read_at: string | null;
+  created_at: string;
+}
+
+/** ENT-DEV-001 device_token (API-NOTIFY-002) */
+export interface DeviceToken {
+  id: string;
+  user_id: string;
+  expo_push_token: string;
+  enabled: boolean;
+}
+
 /** API 오류 모델 (imjang_note_api_contracts.md §5) */
 export type ApiErrorCode =
   | 'AUTH_INVALID_CREDENTIALS'

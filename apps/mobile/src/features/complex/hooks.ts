@@ -14,10 +14,10 @@ import {
 const bboxKey = (b: BBox, zoom: number) =>
   [Math.round(zoom), b.minLat.toFixed(3), b.minLng.toFixed(3), b.maxLat.toFixed(3), b.maxLng.toFixed(3)];
 
-export function useMarkers(bbox: BBox | null, zoom: number) {
+export function useMarkers(bbox: BBox | null, zoom: number, workspaceId?: string | null) {
   return useQuery({
-    queryKey: ['markers', ...(bbox ? bboxKey(bbox, zoom) : ['none'])],
-    queryFn: () => fetchMarkers(bbox as BBox, zoom),
+    queryKey: ['markers', workspaceId ?? 'none', ...(bbox ? bboxKey(bbox, zoom) : ['nobbox'])],
+    queryFn: () => fetchMarkers(bbox as BBox, zoom, workspaceId),
     enabled: !!bbox,
     placeholderData: (prev) => prev, // 패닝 시 깜빡임 방지
   });

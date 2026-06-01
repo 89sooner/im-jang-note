@@ -7,11 +7,13 @@ import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-nat
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import { useComplexDetail, useTransactions } from '@/features/complex/hooks';
+import { useFavorites, useToggleFavorite } from '@/features/favorite/hooks';
+import { useMyWorkspaces } from '@/features/workspace/hooks';
 import { FreshnessBadge } from '@/components/FreshnessBadge';
 import { Button } from '@/components/Button';
 import { toUserMessage } from '@/lib/errors';
 import { tokens } from '@/theme/tokens';
-import type { TrendPoint, Transaction } from '@/types/database';
+import type { TrendPoint, Transaction, Favorite } from '@/types/database';
 
 function manwonToKR(price: number): string {
   // price: 만원 단위 → "x억 y,yyy만"
@@ -26,6 +28,12 @@ export default function ComplexDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const detail = useComplexDetail(id ?? null);
   const tx = useTransactions(id ?? null);
+
+  const workspaces = useMyWorkspaces();
+  const workspaceId = workspaces.data?.[0]?.workspace.id ?? null;
+  const favorites = useFavorites(workspaceId);
+  const toggleFav = useToggleFavorite(workspaceId);
+  const isFavorited = (favorites.data ?? []).some((f: Favorite) => f.complex_id === id);
 
   return (
     <SafeAreaView style={styles.safe} edges={['bottom']}>
@@ -77,8 +85,18 @@ export default function ComplexDetailScreen() {
           )}
         </View>
 
+        {/* 즐겨찾기 토글 (FR-FAV-001) */}
+        {workspaceId && (
+          <Button
+            label={isFavorited ? '★ 즐겨찾기 해제' : '☆ 즐겨찾기 추가'}
+            variant="secondary"
+            onPress={() => id && toggleFav.mutate(id)}
+            loading={toggleFav.isPending}
+          />
+        )}
+
         {/* 노트 작성 진입 (FR-NOTE-001) */}
-        <View style={{ height: tokens.space.md }} />
+        <View style={{ height: tokens.space.sm }} />
         <Button
           label="임장 노트 작성"
           onPress={() => router.push(`/note/edit?complexId=${id}`)}
