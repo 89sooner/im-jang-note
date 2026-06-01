@@ -16,7 +16,15 @@
       "bundleIdentifier": "com.imjangnote.app",
       "supportsTablet": false
     },
-    "plugins": ["expo-router"],
+    "plugins": [
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "임장 현장에서 현위치 단지를 찾는 데 사용합니다."
+        }
+      ]
+    ],
     "experiments": {
       "typedRoutes": true
     },

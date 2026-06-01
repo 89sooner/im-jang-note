@@ -1,11 +1,17 @@
 /**
  * 인증 셸: 하단 5탭 (product_ia.md 전역 내비게이션).
- * 지도 / 피드 / 즐겨찾기 / 알림 / 설정.
+ * 지도 / 피드 / 즐겨찾기 / 알림 / 설정. + 워크스페이스 Realtime 구독(FR-WS-003).
  */
 import { Tabs } from 'expo-router';
+import { useMyWorkspaces } from '@/features/workspace/hooks';
+import { useWorkspaceRealtime } from '@/features/realtime/useWorkspaceRealtime';
 import { tokens } from '@/theme/tokens';
 
 export default function TabsLayout() {
+  const workspaces = useMyWorkspaces();
+  const workspaceId = workspaces.data?.[0]?.workspace.id ?? null;
+  useWorkspaceRealtime(workspaceId);
+
   return (
     <Tabs
       screenOptions={{
