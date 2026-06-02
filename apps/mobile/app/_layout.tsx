@@ -10,7 +10,9 @@ import { StatusBar } from 'expo-status-bar';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from '@/lib/queryClient';
 import { useSessionBootstrap } from '@/features/auth/useSession';
+import { useOutbox } from '@/features/sync/useOutbox';
 import { useAuthStore } from '@/stores/authStore';
+import { SyncStatusBadge } from '@/components/SyncStatusBadge';
 import { tokens } from '@/theme/tokens';
 
 function AuthGate() {
@@ -38,16 +40,20 @@ function AuthGate() {
   }
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="workspace" options={{ presentation: 'modal', headerShown: true, title: '워크스페이스' }} />
-    </Stack>
+    <View style={{ flex: 1 }}>
+      <SyncStatusBadge />
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="workspace" options={{ presentation: 'modal', headerShown: true, title: '워크스페이스' }} />
+      </Stack>
+    </View>
   );
 }
 
 function Bootstrapper({ children }: { children: React.ReactNode }) {
   useSessionBootstrap();
+  useOutbox();
   return <>{children}</>;
 }
 
