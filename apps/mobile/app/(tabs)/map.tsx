@@ -9,6 +9,7 @@ import { useRouter } from 'expo-router';
 import * as Location from 'expo-location';
 import { KakaoMapView } from '@/features/map/KakaoMapView';
 import { useMarkers } from '@/features/complex/hooks';
+import { useMyWorkspaces } from '@/features/workspace/hooks';
 import { useMapStore } from '@/stores/mapStore';
 import { tokens } from '@/theme/tokens';
 import type { BBox } from '@/types/database';
@@ -20,7 +21,9 @@ export default function MapScreen() {
   const zoom = useMapStore((s) => s.zoom);
   const setViewport = useMapStore((s) => s.setViewport);
 
-  const markersQuery = useMarkers(bbox, zoom);
+  const workspaces = useMyWorkspaces();
+  const workspaceId = workspaces.data?.[0]?.workspace.id ?? null;
+  const markersQuery = useMarkers(bbox, zoom, workspaceId);
 
   const onRegionChange = useCallback(
     (c: { lat: number; lng: number }, z: number, b: BBox) => setViewport(c, z, b),
@@ -63,6 +66,16 @@ export default function MapScreen() {
         </View>
       </View>
 
+      {/* 검색 진입 (FR-SEARCH-001) */}
+      <Pressable
+        style={styles.searchBtn}
+        onPress={() => router.push('/search')}
+        accessibilityRole="button"
+        accessibilityLabel="검색"
+      >
+        <Text style={styles.searchText}>🔍  지역·단지명 검색</Text>
+      </Pressable>
+
       {/* 현위치 버튼 (FR-MAP-004) */}
       <Pressable
         style={styles.locBtn}
@@ -90,6 +103,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   pillText: { fontSize: tokens.font.sm, color: tokens.color.text, fontWeight: '600' },
+  searchBtn: {
+    position: 'absolute',
+    top: tokens.space.lg + 28,
+    left: tokens.space.md,
+    right: tokens.space.md,
+    backgroundColor: tokens.color.bg,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: tokens.color.border,
+    paddingHorizontal: tokens.space.md,
+    minHeight: tokens.touchTarget,
+    justifyContent: 'center',
+  },
+  searchText: { fontSize: tokens.font.md, color: tokens.color.textMuted },
   locBtn: {
     position: 'absolute',
     right: tokens.space.md,

@@ -11,6 +11,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useSaveNote } from '@/features/note/hooks';
 import { requestUploadUrls, uploadPhoto } from '@/features/note/api';
 import { useMyWorkspaces } from '@/features/workspace/hooks';
+import { enqueue } from '@/features/sync/outbox';
+import { useSyncStore } from '@/stores/syncStore';
 import { useConsentStore } from '@/stores/consentStore';
 import { RatingStars } from '@/components/RatingStars';
 import { ChecklistInput } from '@/components/ChecklistInput';
@@ -31,6 +33,7 @@ export default function NoteEditScreen() {
   const saveNote = useSaveNote();
   const photoConsent = useConsentStore((s) => s.photo);
   const setPhotoConsent = useConsentStore((s) => s.setPhoto);
+  const online = useSyncStore((s) => s.online);
 
   const [visitedAt, setVisitedAt] = useState(todayISO());
   const [rating, setRating] = useState(0);
@@ -80,15 +83,22 @@ export default function NoteEditScreen() {
     }
     setBusy(true);
     try {
-      // 1) 노트 + 체크리스트 원자 저장
-      const note = await saveNote.mutateAsync({
+      const input = {
         workspace_id: workspaceId,
         complex_id: complexId,
         visited_at: visitedAt,
         rating,
         free_memo: memo,
         checklist,
-      });
+      };
+      // 오프라인: outbox 큐에 적재 후 종료(FR-SYNC-001). 사진 업로드는 온라인 복귀 후 별도 흐름.
+      if (!online) {
+        await enqueue({ kind: 'note.save', payload: input });
+        router.back();
+        return;
+      }
+      // 1) 노트 + 체크리스트 원자 저장
+      const note = await saveNote.mutateAsync(input);
       // 2) 사진 업로드 (있으면)
       if (localPhotos.length > 0) {
         const urls = await requestUploadUrls(note.note_id, localPhotos.length);

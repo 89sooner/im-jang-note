@@ -38,6 +38,12 @@ export function useWorkspaceRealtime(workspaceId: string | null) {
           if (noteId) qc.invalidateQueries({ queryKey: ['comments', noteId] });
         },
       )
+      // 알림 생성 → 알림 센터 캐시 무효화 (FR-NOTIFY-002)
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'notification', filter: `workspace_id=eq.${workspaceId}` },
+        () => qc.invalidateQueries({ queryKey: ['notifications'] }),
+      )
       .subscribe();
 
     return () => {
