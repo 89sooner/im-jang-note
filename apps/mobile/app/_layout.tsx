@@ -13,6 +13,7 @@ import { useSessionBootstrap } from '@/features/auth/useSession';
 import { useOutbox } from '@/features/sync/useOutbox';
 import { useAuthStore } from '@/stores/authStore';
 import { SyncStatusBadge } from '@/components/SyncStatusBadge';
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { tokens } from '@/theme/tokens';
 
 function AuthGate() {
@@ -59,13 +60,15 @@ function Bootstrapper({ children }: { children: React.ReactNode }) {
 
 export default function RootLayout() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <SafeAreaProvider>
-        <Bootstrapper>
-          <StatusBar style="auto" />
-          <AuthGate />
-        </Bootstrapper>
-      </SafeAreaProvider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <SafeAreaProvider>
+          <Bootstrapper>
+            <StatusBar style="auto" />
+            <AuthGate />
+          </Bootstrapper>
+        </SafeAreaProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 }

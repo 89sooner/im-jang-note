@@ -2,6 +2,7 @@
  * 인증/프로필 API (API-AUTH-001/002/003).
  */
 import { supabase } from '@/lib/supabase';
+import { newIdempotencyKey } from '@/lib/idempotency';
 import type { UserProfile } from '@/types/database';
 
 /** API-AUTH-001 이메일 로그인 (FR-AUTH-001) */
@@ -55,4 +56,13 @@ export async function upsertProfile(
   });
   if (error) throw error;
   return data as UserProfile;
+}
+
+/** API-AUTH-004 계정 탈퇴 예약 (FR-AUTH-004). 단독 owner면 AUTH_SOLE_OWNER_BLOCK */
+export async function requestAccountDeletion(): Promise<{ scheduled_at: string }> {
+  const { data, error } = await supabase.rpc('rpc_request_account_deletion', {
+    p_idempotency_key: newIdempotencyKey(),
+  });
+  if (error) throw error;
+  return data as { scheduled_at: string };
 }
